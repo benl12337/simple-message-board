@@ -21,8 +21,13 @@ const messages = [
 app.get("/", (req,res) => {
     res.render("index", {messages: messages})
 });
+
 app.get("/new", (req,res) => {
     res.render("form")
+});
+
+app.get("/messages/:messageId", (req,res) => {
+    res.render("message", {message: messages[req.params.messageId - 1]} )
 });
 
 app.post("/new", (req,res) => {
