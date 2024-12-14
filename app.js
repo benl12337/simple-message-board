@@ -3,37 +3,12 @@ const app = express();
 const path = require("node:path");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+const indexRouter = require('./routes/indexRouter');
 app.use(express.urlencoded({ extended: true }));
 
-const messages = [
-    {
-        text: 'Hi there!',
-        user: 'Amando',
-        added: new Date()
-    },
-    {
-        text: 'Hello World!',
-        user: 'Charles',
-        added: new Date()
-    },
-]
 
-app.get("/", (req,res) => {
-    res.render("index", {messages: messages})
-});
 
-app.get("/new", (req,res) => {
-    res.render("form")
-});
-
-app.get("/messages/:messageId", (req,res) => {
-    res.render("message", {message: messages[req.params.messageId - 1]} )
-});
-
-app.post("/new", (req,res) => {
-    messages.push({ text: req.body.messageText, user: req.body.userText, added: new Date() });
-    res.redirect("/");
-})
+app.use("/", indexRouter);
 
 const PORT = 3000;
 app.listen(PORT, ()=>{
